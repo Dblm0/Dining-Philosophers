@@ -5,7 +5,18 @@ use std::thread::{self, JoinHandle};
 use std::time::Duration;
 
 #[derive(Debug)]
-struct Fork(u8);
+struct Fork {
+    number: u8,
+    pick_count: u16,
+}
+impl Fork {
+    fn new(number: u8) -> Self {
+        Fork {
+            number,
+            pick_count: 0,
+        }
+    }
+}
 type SharedFork = Arc<Mutex<Fork>>;
 
 impl From<Fork> for SharedFork {
@@ -66,7 +77,7 @@ fn main() {
     let (thoughts, thoughts_sink) = mpsc::channel::<String>();
     // Create forks
     let forks: Vec<SharedFork> = (0..PHILOSOPHERS.len())
-        .map(|x| Fork(x as u8).into())
+        .map(|x| Fork::new(x as u8).into())
         .collect();
 
     let fork_pairs_idxs: Vec<(usize, usize)> = {
