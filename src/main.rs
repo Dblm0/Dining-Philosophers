@@ -1,29 +1,11 @@
 //solution to https://google.github.io/comprehensive-rust/exercises/day-4/dining-philosophers.html
 use std::sync::mpsc::{self, Sender};
-use std::sync::{Arc, Mutex};
 use std::thread::{self, JoinHandle};
 use std::time::Duration;
 
-#[derive(Debug)]
-struct Fork {
-    number: u8,
-    pick_count: u16,
-}
-impl Fork {
-    fn new(number: u8) -> Self {
-        Fork {
-            number,
-            pick_count: 0,
-        }
-    }
-}
-type SharedFork = Arc<Mutex<Fork>>;
+mod fork;
+use fork::*;
 
-impl From<Fork> for SharedFork {
-    fn from(source: Fork) -> Self {
-        Arc::new(Mutex::new(source))
-    }
-}
 #[derive(Debug)]
 struct Philosopher {
     name: String,
