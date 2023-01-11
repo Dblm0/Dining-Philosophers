@@ -35,6 +35,9 @@ fn main() {
         ));
     }
 
+    let last = dining_philosophers.iter_mut().last().unwrap();
+    last.swap_hands();
+
     // Make them think and eat
     let handles: Vec<JoinHandle<Philosopher>> = dining_philosophers
         .into_iter()

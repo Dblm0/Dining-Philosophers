@@ -30,6 +30,9 @@ impl Philosopher {
         }
     }
 
+    pub fn swap_hands(&mut self) {
+        std::mem::swap(&mut self.left_fork, &mut self.right_fork);
+    }
     pub fn think(&mut self) {
         self.thoughts
             .send(format!("Eureka! {} has a new idea!", &self.name))
