@@ -1,4 +1,4 @@
-use crate::fork::SharedFork;
+use crate::fork::{PickableFork, SharedFork};
 use std::{sync::mpsc::Sender, thread, time::Duration};
 
 #[derive(Debug)]
@@ -38,9 +38,9 @@ impl Philosopher {
     }
 
     pub fn eat(&mut self) {
-        let _l = self.left_fork.lock().unwrap();
+        let _l = self.left_fork.pick();
         thread::sleep(Duration::from_millis(1_000));
-        let _r = self.right_fork.lock().unwrap();
+        let _r = self.right_fork.pick();
         println!("{} is eating ...", &self.name);
 
         thread::sleep(Duration::from_millis(10));
