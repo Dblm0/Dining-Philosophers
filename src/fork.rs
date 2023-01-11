@@ -1,9 +1,9 @@
 use std::sync::{Arc, Mutex, MutexGuard};
-#[derive(Debug)]
 pub struct Fork {
     number: u8,
     pick_count: u16,
 }
+
 impl Fork {
     pub fn new(number: u8) -> Self {
         Fork {
@@ -12,6 +12,16 @@ impl Fork {
         }
     }
 }
+
+impl std::fmt::Debug for Fork {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Fork")
+            .field("number", &self.number)
+            .field("pick_count", &self.pick_count)
+            .finish()
+    }
+}
+
 pub type SharedFork = Arc<Mutex<Fork>>;
 
 impl From<Fork> for SharedFork {
